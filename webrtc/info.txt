@@ -1,0 +1,44 @@
+NAT - Network Address Translation
+1. If not in same subnet it sends packet to router with destination ip
+2. It changes the your ip address to router public ip address
+3. It create a nat table
+   
+   Internal IP | Internal Port | External IP | External Port | Destination IP | Destination Port    
+    10.0.0.2   |     8992      |   5.5.5.5   |      3333     |    4.4.4.4     |        80   
+4.Types
+    i.   One to One NAT (Does not check where packet is coming from)
+    ii.  Address restricted NAT (Allow if we communicated with this host:ip before in table)
+    iii. Port restricted NAT (Allow if we communicated with this host:ip&port before in table)
+    iv.  Symmetric NAT (Allow if we communicated with this host:ip&port + ext:ip&port before in table)
+    
+STUN - Session Traversal Utilities for NAT
+1. Tell me my public ip address/port through NAT so people can talk to us directly
+2. Doesn't work with Symmetric NAT
+3. We have to communicate before to save eachother addresses in table for Address restricted NAT.
+4. Shortest path with lowest latency
+
+
+TRUN - Tranversal Using Relays around NAT
+1. It connects first and then it can be trusted to connect 
+
+ICE - Interactive Connectivity Estabishment
+1. Have all info. Local IP addresses and TRUN ones. All these are called ICE candidates.
+2. All the collected addresses are then sent to the remote peer via SDP.
+3. Collecting ice candidates takes time.
+
+SDP - Session Description Protocal
+1. That's a format string having all ice info, video info, media, security and etc. To know about us.
+2. Send it to other party.
+
+Signaling
+1. SDP Signaling
+2. I have SDP send it to other party. Alot of people send it through websockets, socket.io
+
+
+STEPS.
+1. We will connect two browsers.
+2. A will create an offer (sdp) and set it as local description .
+3. B will get the offer and set it as remote description.
+4. B will create an answer sets it as its local description and signal the answer (sdp) to A.
+5. A sets the answer as its remote description.
+6. Connection established, exchange data channel.

@@ -13,6 +13,7 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
   const { endedCalls, upcomingCalls, callRecordings, isLoading } =
     useGetCalls();
   const [recordings, setRecordings] = useState<CallRecording[]>([]);
+  const [isLoading2, setIsLoading2] = useState(false);
 
   const getCalls = () => {
     switch (type) {
@@ -51,14 +52,16 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
         .flatMap((call) => call.recordings);
 
       setRecordings(recordings);
+      setIsLoading2(false);
     };
 
     if (type === 'recordings') {
+      setIsLoading2(true);
       fetchRecordings();
     }
   }, [type, callRecordings]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading || isLoading2) return <Loader />;
 
   const calls = getCalls();
   const noCallsMessage = getNoCallsMessage();
